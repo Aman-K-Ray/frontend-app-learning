@@ -20,14 +20,16 @@ const CourseTabsNavigation = ({
           className="nav-underline-tabs"
           aria-label={intl.formatMessage(messages.courseMaterial)}
         >
-          {tabs.map(({ url, title, slug }) => (
-            <a
-              key={slug}
-              className={classNames('nav-item flex-shrink-0 nav-link', { active: slug === activeTabSlug })}
-              href={url}
-            >
-              {title}
-            </a>
+          {tabs
+            .filter(tab => tab.title !== 'Dates') // hide the "Dates" tab
+            .map(({ url, title, slug }) => (
+              <a
+                key={slug}
+                className={classNames('nav-item flex-shrink-0 nav-link', { active: slug === activeTabSlug })}
+                href={url}
+              >
+                {title}
+              </a>
           ))}
         </Tabs>
       </div>
