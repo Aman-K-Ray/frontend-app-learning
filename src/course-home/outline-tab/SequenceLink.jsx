@@ -38,8 +38,15 @@ const SequenceLink = ({
 
   const timezoneFormatArgs = userTimezone ? { timeZone: userTimezone } : {};
 
-  const coursewareUrl = <Link to={`/course/${courseId}/${id}`}>{title}</Link>;
-  const displayTitle = showLink ? coursewareUrl : title;
+  // Split up the title on '(' for Problem Sets
+  const titleSplit = title.split('(');
+  let problemTitle = title;
+  if (titleSplit.length > 1 && titleSplit[1].toLowerCase().includes('question')) {
+    problemTitle = titleSplit[0].trim();
+  }
+
+  const coursewareUrl = <Link to={`/course/${courseId}/${id}`}>{problemTitle}</Link>;
+  const displayTitle = showLink ? coursewareUrl : problemTitle;
 
   const dueDateMessage = (
     <FormattedMessage
