@@ -39,11 +39,24 @@ const SequenceLink = ({
   const timezoneFormatArgs = userTimezone ? { timeZone: userTimezone } : {};
 
   // Split up the title on '(' for Problem Sets
-  const titleSplit = title.split('(');
-  let problemTitle = title;
-  if (titleSplit.length > 1 && titleSplit[1].toLowerCase().includes('question')) {
-    problemTitle = titleSplit[0].trim();
-  }
+  // const titleSplit = title.split('(');
+  // let problemTitle = title;
+  // if (titleSplit.length > 1 && titleSplit[1].toLowerCase().includes('question')) {
+  //   problemTitle = titleSplit[0].trim();
+  // }
+
+  // Split up the title on '(' for Problem Sets
+  const problemTitle = title
+  .split('(')
+  .filter((part, index) =>
+    index === 0 || !part.toLowerCase().includes('question')
+  )
+  .map((part, index) =>
+    index === 0 ? part.trim() : '(' + part.trim()
+  )
+  .join(' ')
+  .replace(/\s{2,}/g, ' ')
+  .trim();
 
   const coursewareUrl = <Link to={`/course/${courseId}/${id}`}>{problemTitle}</Link>;
   const displayTitle = showLink ? coursewareUrl : problemTitle;
