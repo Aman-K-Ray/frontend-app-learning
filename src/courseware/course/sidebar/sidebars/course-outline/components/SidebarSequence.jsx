@@ -34,11 +34,18 @@ const SidebarSequence = ({
   const isActiveSequence = id === activeSequenceId;
 
   // Split up the title on '(' for Problem Sets
-  const titleSplit = title.split('(');
-  let problemTitle = title;
-  if (titleSplit.length > 1 && titleSplit[1].toLowerCase().includes('question')) {
-    problemTitle = titleSplit[0].trim();
-  }
+  const problemTitle = title
+  .split('(')
+  .filter((part, index) =>
+    index === 0 || !part.toLowerCase().includes('question')
+  )
+  .map((part, index) =>
+    index === 0 ? part.trim() : '(' + part.trim()
+  )
+  .join(' ')
+  .replace(/\s{2,}/g, ' ')
+  .trim();
+
 
   const sectionTitle = (
     <>
