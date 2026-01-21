@@ -33,13 +33,20 @@ const SidebarSequence = ({
   const activeSequenceId = useSelector(getSequenceId);
   const isActiveSequence = id === activeSequenceId;
 
+  // Split up the title on '(' for Problem Sets
+  const titleSplit = title.split('(');
+  let problemTitle = title;
+  if (titleSplit.length > 1 && titleSplit[1].toLowerCase().includes('question')) {
+    problemTitle = titleSplit[0].trim();
+  }
+
   const sectionTitle = (
     <>
       <div className="col-auto p-0" style={{ fontSize: '1.1rem' }}>
         <CompletionIcon completionStat={completionStat} />
       </div>
       <div className="col-9 d-flex flex-column flex-grow-1 ml-3 mr-auto p-0 text-left">
-        <span className="align-middle text-dark-500">{title}</span>
+        <span className="align-middle text-dark-500">{problemTitle}</span>
         {specialExamInfo && <span className="align-middle small text-muted">{specialExamInfo}</span>}
         <span className="sr-only">
           , {intl.formatMessage(complete
